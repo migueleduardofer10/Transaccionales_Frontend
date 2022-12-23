@@ -21,4 +21,11 @@ export class CommentService {
   getAllCommentsByUser(name: string) {
     return this.httpClient.get<CommentPayload[]>('http://localhost:8080/api/comments/by-user/' + name);
   }
+
+  exportComment(postId: number) {
+    const endpoint = 'http://localhost:8080/api/comments/by-post/' + postId;
+    return this.httpClient.get(endpoint, {
+      responseType: 'blob',
+    });
+  }
 }

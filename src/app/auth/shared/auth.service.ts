@@ -83,4 +83,11 @@ export class AuthService {
   isLoggedIn(): boolean {
     return this.getJwtToken() != null;
   }
+
+  exportProduct() {
+    const endpoint = `http://localhost:8080/api/auth/signup/export/excel`;
+    return this.httpClient.get(endpoint, {
+      responseType: 'blob',
+    });
+  }
 }

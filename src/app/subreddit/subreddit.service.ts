@@ -17,4 +17,12 @@ export class SubredditService {
     return this.http.post<SubredditModel>('http://localhost:8080/api/subreddit',
       subredditModel);
   }
+  exportCategories() {
+    const endpoint = 'http://localhost:8080/api/subreddit/export/excel';
+    return this.http.get(endpoint, {
+      responseType: 'blob',
+    });
+  }
+
+  
 }

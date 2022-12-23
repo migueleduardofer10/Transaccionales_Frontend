@@ -64,4 +64,23 @@ export class ViewPostComponent implements OnInit {
     });
   }
 
+  exportExcel(id: number) {
+    this.commentService.exportComment(id).subscribe(
+      (data: any) => {
+        let file = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        let fileUrl = URL.createObjectURL(file);
+        var anchor = document.createElement('a');
+        anchor.download = 'comment.xlsx';
+        anchor.href = fileUrl;
+        anchor.click();
+
+        console.log('Archivo exportado correctamente', 'Exitosa');
+      },
+      (error: any) => {
+        console.log('No se pudo exportar el archivo', 'Error');
+      }
+    );
+  }
 }
