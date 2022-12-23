@@ -3,9 +3,9 @@
     mat-button
     mat-raised-button
     color="accent"
-    (click)="exportExcel()"
+    (click)="exportExcelPost()"
   >
-    Exportar Excel de Posts vs Comentarios
+    Exportar Excel de Posts 
   </button>
 </li>
 
@@ -19,6 +19,18 @@
     Exportar Excel de Usuarios
   </button>
 </li>
+
+<li>
+  <button
+    mat-button
+    mat-raised-button
+    color="accent"
+    (click)="exportExcelSubreddit()"
+  >
+    Exportar Excel de Subreddit
+  </button>
+</li>
+
 <div class="reddit-body">
   <div class="container">
     <div class="row">

@@ -22,8 +22,8 @@ export class CommentService {
     return this.httpClient.get<CommentPayload[]>('http://localhost:8080/api/comments/by-user/' + name);
   }
 
-  exportComment(postId: number) {
-    const endpoint = 'http://localhost:8080/api/comments/by-post/' + postId;
+  exportComment(id: number) {
+    const endpoint = 'http://localhost:8080/api/comments/by-post/'+id+'/excel/reporter'
     return this.httpClient.get(endpoint, {
       responseType: 'blob',
     });

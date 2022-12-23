@@ -1,3 +1,4 @@
+import { VoteService } from './../../shared/vote.service';
 import { Component, OnInit } from '@angular/core';
 import { PostService } from 'src/app/shared/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,7 +7,6 @@ import { throwError } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommentPayload } from 'src/app/comment/comment.payload';
 import { CommentService } from 'src/app/comment/comment.service';
-
 @Component({
   selector: 'app-view-post',
   templateUrl: './view-post.component.html',
@@ -20,7 +20,7 @@ export class ViewPostComponent implements OnInit {
   commentPayload: CommentPayload;
   comments: CommentPayload[];
 
-  constructor(private postService: PostService, private activateRoute: ActivatedRoute,
+  constructor(private postService: PostService, private voteService: VoteService, private activateRoute: ActivatedRoute,
     private commentService: CommentService, private router: Router) {
     this.postId = this.activateRoute.snapshot.params.id;
 
@@ -64,15 +64,35 @@ export class ViewPostComponent implements OnInit {
     });
   }
 
-  exportExcel(id: number) {
-    this.commentService.exportComment(id).subscribe(
+  exportExcelComment( ) {
+    this.commentService.exportComment(this.postId).subscribe(
       (data: any) => {
         let file = new Blob([data], {
-          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          type: 'application/vnd.ms-excel',
         });
         let fileUrl = URL.createObjectURL(file);
         var anchor = document.createElement('a');
         anchor.download = 'comment.xlsx';
+        anchor.href = fileUrl;
+        anchor.click();
+
+        console.log('Archivo exportado correctamente', 'Exitosa');
+      },
+      (error: any) => {
+        console.log('No se pudo exportar el archivo', 'Error');
+      }
+    );
+  }
+
+  exportExcelVote( ) {
+    this.voteService.exportVote().subscribe(
+      (data: any) => {
+        let file = new Blob([data], {
+          type: 'application/vnd.ms-excel',
+        });
+        let fileUrl = URL.createObjectURL(file);
+        var anchor = document.createElement('a');
+        anchor.download = 'vote.xlsx';
         anchor.href = fileUrl;
         anchor.click();
 

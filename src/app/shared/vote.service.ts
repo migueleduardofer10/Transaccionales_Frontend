@@ -13,4 +13,11 @@ export class VoteService {
   vote(votePayload: VotePayload): Observable<any> {
     return this.http.post('http://localhost:8080/api/votes/', votePayload);
   }
+
+  exportVote() {
+    const endpoint = 'http://localhost:8080/api/votes/export/excel'
+    return this.http.get(endpoint, {
+      responseType: 'blob',
+    });
+  }
 }

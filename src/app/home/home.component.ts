@@ -1,9 +1,11 @@
+import { SubredditService } from 'src/app/subreddit/subreddit.service';
 import { AuthService } from 'src/app/auth/shared/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { throwError } from 'rxjs';
 import { PostModel } from '../shared/post-model';
 import { PostService } from '../shared/post.service';
+import { CommentService } from '../comment/comment.service';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +18,7 @@ export class HomeComponent implements OnInit {
   chartdoughnut: any;
 
  
-  constructor(private postService: PostService, private authService: AuthService) {
+  constructor(private postService: PostService, private authService: AuthService, private subredditService: SubredditService, private commentService :CommentService) {
     this.postService.getAllPosts().subscribe(post => {
       this.posts = post, 
       Chart.register(...registerables);
@@ -110,7 +112,7 @@ export class HomeComponent implements OnInit {
     });
   }
     
-    exportExcel() {
+    exportExcelPost() {
       this.postService.exportProduct().subscribe(
         (data: any) => {
           let file = new Blob([data], {
@@ -150,6 +152,28 @@ export class HomeComponent implements OnInit {
       );
     }
 
+    exportExcelSubreddit() {
+      this.subredditService.exportCategories().subscribe(
+        (data: any) => {
+          let file = new Blob([data], {
+            type: 'application/vnd.ms-excel',
+          });
+          let fileUrl = URL.createObjectURL(file);
+          var anchor = document.createElement('a');
+          anchor.download = 'subreddit.xlsx';
+          anchor.href = fileUrl;
+          anchor.click();
+  
+          console.log('Archivo exportado correctamente', 'Exitosa');
+        },
+        (error: any) => {
+          console.log('No se pudo exportar el archivo', 'Error');
+        }
+      );
+    }
+
     
+    
+
  
   }
