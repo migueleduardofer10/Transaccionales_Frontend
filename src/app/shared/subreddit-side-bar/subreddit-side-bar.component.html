@@ -9,3 +9,15 @@
         <a style="font-weight: bold" routerLink="/list-subreddits">View All</a>
     </div>
 </div>
+
+<div class="sidebar-view-subreddit">
+    <div style="color: black; font-weight: bold">Nuevos Usuarios Registrador</div>
+    <hr />
+    <span *ngFor="let user of users">
+        <span class="subreddit-text"><a>Usuario: {{user.username}}     Correo:  </a></span>
+        
+        <span class="subreddit-text"><a>{{user.email}}</a></span><hr />
+
+    </span>
+ 
+</div>

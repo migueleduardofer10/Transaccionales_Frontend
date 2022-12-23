@@ -38,6 +38,8 @@ export class ListSubredditsComponent implements OnInit {
     });
   }
 
+  
+
   processProductResponse(resp: any) {
     const name: String[] = [];
     const numofPosts: number[] = [];
@@ -105,25 +107,6 @@ export class ListSubredditsComponent implements OnInit {
     });
   }
     
-    exportExcel() {
-      this.subredditService.exportCategories().subscribe(
-        (data: any) => {
-          let file = new Blob([data], {
-            type: 'application/vnd.ms-excel',
-          });
-          let fileUrl = URL.createObjectURL(file);
-          var anchor = document.createElement('a');
-          anchor.download = 'subreddit.xlsx';
-          anchor.href = fileUrl;
-          anchor.click();
-  
-          console.log('Archivo exportado correctamente', 'Exitosa');
-        },
-        (error: any) => {
-          console.log('No se pudo exportar el archivo', 'Error');
-        }
-      );
-    }
 
     
  

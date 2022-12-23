@@ -6,6 +6,7 @@ import { throwError } from 'rxjs';
 import { PostModel } from '../shared/post-model';
 import { PostService } from '../shared/post.service';
 import { CommentService } from '../comment/comment.service';
+import { VoteService } from '../shared/vote.service';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,7 @@ export class HomeComponent implements OnInit {
   chartdoughnut: any;
 
  
-  constructor(private postService: PostService, private authService: AuthService, private subredditService: SubredditService, private commentService :CommentService) {
+  constructor(private postService: PostService, private authService: AuthService, private subredditService: SubredditService, private commentService :CommentService, private voteService : VoteService) {
     this.postService.getAllPosts().subscribe(post => {
       this.posts = post, 
       Chart.register(...registerables);
@@ -171,6 +172,28 @@ export class HomeComponent implements OnInit {
         }
       );
     }
+
+    exportExcelVote( ) {
+      this.voteService.exportVote().subscribe(
+        (data: any) => {
+          let file = new Blob([data], {
+            type: 'application/vnd.ms-excel',
+          });
+          let fileUrl = URL.createObjectURL(file);
+          var anchor = document.createElement('a');
+          anchor.download = 'vote.xlsx';
+          anchor.href = fileUrl;
+          anchor.click();
+  
+          console.log('Archivo exportado correctamente', 'Exitosa');
+        },
+        (error: any) => {
+          console.log('No se pudo exportar el archivo', 'Error');
+        }
+      );
+    }
+
+    
 
     
     

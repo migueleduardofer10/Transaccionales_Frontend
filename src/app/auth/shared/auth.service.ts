@@ -1,6 +1,7 @@
+import { SignupRequestPayload } from './../signup/singup-request.payload';
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SignupRequestPayload } from '../signup/singup-request.payload';
+import { User } from '../signup/userModel';
 import { Observable, throwError } from 'rxjs';
 import { LocalStorageService } from 'ngx-webstorage';
 import { LoginRequestPayload } from '../login/login-request.payload';
@@ -89,5 +90,9 @@ export class AuthService {
     return this.httpClient.get(endpoint, {
       responseType: 'blob',
     });
+  }
+
+  getAllUsers(): Observable<Array<User>> {
+    return this.httpClient.get<Array<User>>('http://localhost:8080/api/auth/signup');
   }
 }
